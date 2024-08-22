@@ -2,12 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { FetchWeatherData } from '../services/weatherService';
 
-const WeatherDisplay = () => {
-    const { city, period } = useParams();
+const WeatherDisplay = ({unit, setUnit}) => {
+    const { period,city  } = useParams();
     const [weatherData, setWeatherData] = useState(null);
     const [error, setError] = useState(null);
-    const requestInProgress = useRef(false); // Ref to track ongoing requests
-
+    const requestInProgress = useRef(false); 
+    // console.log(city)
+    // console.log(unit);
     useEffect(() => {
         const getWeather = async () => {
             if (requestInProgress.current) {
@@ -15,7 +16,7 @@ const WeatherDisplay = () => {
             }
             requestInProgress.current = true; // Mark that a request is in progress
             try {
-                const data = await FetchWeatherData(city, period);
+                const data = await FetchWeatherData(city, period, unit);
                 setWeatherData(data);
                 requestInProgress.current = false; // Reset after the request is completed
             } catch (err) {
@@ -24,7 +25,7 @@ const WeatherDisplay = () => {
             }
         };
         getWeather();
-    }, [city, period]);
+    }, [city, period, unit]);
 
     if (error) {
         return <div>Error: {error.message}</div>;

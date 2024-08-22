@@ -4,10 +4,14 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { MenuItem } from '@mui/material';
 
-const SearchBar = () => {
+
+const SearchBar = ({unit, setUnit}) => {
     const [city, setCity] = useState('');
-    const [period, setPeriod] = useState('today'); // Default to 'today'
+    const [period, setPeriod] = useState('today'); 
     const navigate = useNavigate();
 
     const handleSearch = (e) => {
@@ -15,6 +19,10 @@ const SearchBar = () => {
         if (city) {
             navigate(`/weather/${encodeURIComponent(city)}/${period}`);
         }
+    };
+
+    const handleChange = (e) => {
+      setUnit(e.target.value);
     };
 
     return (
@@ -70,6 +78,18 @@ const SearchBar = () => {
                         Next 30 Days
                     </Button>
                 </Stack>
+                <Box>
+                  <FormControl fullWidth>
+                    <Select 
+                      value={unit}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={'metric'}>Metric (°C, km)</MenuItem>
+                      <MenuItem value={'us'}>US (°F, miles)</MenuItem>
+                      <MenuItem value={'uk'}>Imperial (C, miles)</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
             </Box>
         </Box>
     );
