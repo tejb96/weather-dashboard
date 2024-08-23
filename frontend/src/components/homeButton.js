@@ -10,6 +10,8 @@ const HomeButton = () => {
         navigate('/'); 
         // navigate('/home'); 
     };
+    // const i=0;
+    // console.log(i++);
 
     return (
         <IconButton

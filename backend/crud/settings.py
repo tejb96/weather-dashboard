@@ -123,6 +123,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 WEATHER_API_KEY = config('API_KEY')
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'weather_unit',
-]
+# CORS_ALLOW_HEADERS = list(default_headers) + [
+#     'weather_unit',
+# ]

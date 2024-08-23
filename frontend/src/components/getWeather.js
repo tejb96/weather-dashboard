@@ -22,7 +22,7 @@ const GetWeatherData = (city, period, unit) => {
             }
         };
         getWeather();
-    });
+    }, [city]);
 
     return { weatherData, error };
 };
