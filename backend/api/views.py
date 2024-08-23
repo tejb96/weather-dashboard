@@ -9,7 +9,7 @@ class WeatherView(APIView):
         api_key = settings.WEATHER_API_KEY
         city_encoded = quote(city)  # Handles spaces and special characters in city names
         # print(city,period)
-        unit = request.META.get('HTTP_WEATHER_UNIT','metric')
+        unit = request.GET.get('unit')
 
         # print(f"Unit: {unit}")
 

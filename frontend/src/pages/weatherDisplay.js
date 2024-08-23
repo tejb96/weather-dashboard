@@ -1,31 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { FetchWeatherData } from '../services/weatherService';
+import DisplayToday from '../components/displayTodayMetric';
+import DisplayTodayImperialUnits from '../components/displayTodayImperialUnits';
+import DisplayTodayUSUnits from '../components/displayTodayUSUnits';
+import GetWeatherData from '../components/getWeather';
+import HomeButton from '../components/homeButton';
 
-const WeatherDisplay = ({unit, setUnit}) => {
+const WeatherDisplay = ({unit}) => {
     const { period,city  } = useParams();
-    const [weatherData, setWeatherData] = useState(null);
-    const [error, setError] = useState(null);
-    const requestInProgress = useRef(false); 
+    
     // console.log(city)
-    // console.log(unit);
-    useEffect(() => {
-        const getWeather = async () => {
-            if (requestInProgress.current) {
-                return; // If a request is already in progress, don't start another one
-            }
-            requestInProgress.current = true; // Mark that a request is in progress
-            try {
-                const data = await FetchWeatherData(city, period, unit);
-                setWeatherData(data);
-                requestInProgress.current = false; // Reset after the request is completed
-            } catch (err) {
-                setError(err);
-                requestInProgress.current = false; // Reset if there was an error
-            }
-        };
-        getWeather();
-    }, [city, period, unit]);
+    console.log(unit);
+    
+    const { weatherData, error } = GetWeatherData(city, period, unit);
+    
 
     if (error) {
         return <div>Error: {error.message}</div>;
@@ -37,8 +25,15 @@ const WeatherDisplay = ({unit, setUnit}) => {
 
     return (
         <div>
-            <h1>Weather in {city}</h1>
-            <pre>{JSON.stringify(weatherData, null, 2)}</pre>
+            
+            {/* <h1>Weather in {city}</h1> */} <HomeButton/>
+            {unit === 'metric' ? (
+                <DisplayToday weatherData={weatherData} />
+            ):  unit === 'us' ?(
+                <DisplayTodayUSUnits weatherData={weatherData} />
+            ): unit ==='uk' ?(
+                <DisplayTodayImperialUnits weatherData={weatherData}/>
+            ): null}
         </div>
     );
 };
